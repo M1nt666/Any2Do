@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="20086" systemVersion="21D62" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="CategoryForTask" representedClassName="CategoryForTask" syncable="YES" codeGenerationType="class">
+        <attribute name="categoryId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="categoryImageName" optional="YES" attributeType="String"/>
+        <attribute name="categoryName" optional="YES" attributeType="String"/>
+        <attribute name="sumOfCategoryTask" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="task" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Task" inverseName="category" inverseEntity="Task"/>
+    </entity>
+    <entity name="Task" representedClassName="Task" syncable="YES" codeGenerationType="class">
+        <attribute name="taskDone" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="taskFlag" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="taskId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="taskName" optional="YES" attributeType="String"/>
+        <attribute name="taskNote" optional="YES" attributeType="String"/>
+        <attribute name="taskReminder" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="category" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CategoryForTask" inverseName="task" inverseEntity="CategoryForTask"/>
+    </entity>
+    <elements>
+        <element name="CategoryForTask" positionX="-454.08984375" positionY="-45.59375" width="128" height="119"/>
+        <element name="Task" positionX="-419.5859375" positionY="215.4921875" width="128" height="149"/>
+    </elements>
+</model>
