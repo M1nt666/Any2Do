@@ -30,10 +30,7 @@ class CategoryTaskViewModel: ObservableObject{
     func saveData(by category: CategoryForTask? = nil) {
         if CoreDataManager.shared.viewContext.hasChanges {
             do {
-                
                 try CoreDataManager.shared.viewContext.save()
-                
-                
                 loadData()
                 if let currentCategory = category {
                     loadTask(by: currentCategory)
@@ -78,12 +75,8 @@ class CategoryTaskViewModel: ObservableObject{
         request.sortDescriptors = [sort]
         
         do {
-            // Try to load the result into the monitored array
             try categoryArray = CoreDataManager.shared.viewContext.fetch(request)
-            
-            
         } catch {
-            // If it doesn't work
             print("Error getting data. \(error.localizedDescription)")
         }
     }
@@ -129,25 +122,19 @@ class CategoryTaskViewModel: ObservableObject{
 
     func loadTask(by category: CategoryForTask) {
         if let currentCategoryIndex = categoryArray.firstIndex(where: { $0.categoryId == category.categoryId }) {
-            
             let request = NSFetchRequest<Task>(entityName: "Task")
             let currentCategory = categoryArray[currentCategoryIndex]
             
             request.predicate = NSPredicate(format:"%K == %@", "category.categoryId", currentCategory.categoryId! as CVarArg)
             
             let sort = NSSortDescriptor(keyPath: \Task.timestamp, ascending: false)
-            
             request.sortDescriptors = [sort]
             
             do {
-                // Try to load the result into the monitored array
                 try taskArray = CoreDataManager.shared.viewContext.fetch(request)
-                
                 categoryArray[currentCategoryIndex].sumOfCategoryTask = Int64(categoryArray[currentCategoryIndex].task?.count ?? 0)
-                
                 saveData()
             } catch {
-                // If it doesn't work
                 print("Error getting data. \(error.localizedDescription)")
             }
         }
@@ -157,19 +144,6 @@ class CategoryTaskViewModel: ObservableObject{
         offsets.map { taskArray[$0] }.forEach(CoreDataManager.shared.viewContext.delete)
         saveData()
     }
-//
-//    func deleteLocalNotifications(identifier: [String]) {
-//        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifier)
-//    }
 }
 
-public extension NSManagedObject {
-
-    convenience init(context: NSManagedObjectContext) {
-        let name = String(describing: type(of: self))
-        let entity = NSEntityDescription.entity(forEntityName: name, in: context)!
-        self.init(entity: entity, insertInto: context)
-    }
-
-}
     
